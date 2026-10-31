@@ -1,0 +1,27 @@
+# ==========================================
+# Entornos virtuales de Python
+# ==========================================
+venv/
+.venv/
+env/
+.env/
+ENV/
+
+# ==========================================
+# Archivos temporales y cachés de Python
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ==========================================
+# Archivos de configuración del editor / IDE
+# ==========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
