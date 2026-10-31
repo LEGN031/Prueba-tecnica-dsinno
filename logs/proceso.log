@@ -1,0 +1,45 @@
+2026-10-31 02:30:01 [INFO] [ID: MainThread] ===== INICIO DEL PROCESO DE CUENTAS =====
+2026-10-31 02:30:01 [INFO] [ID: MainThread] Base de datos inicializada: state/estado.db
+2026-10-31 02:30:01 [INFO] [ID: MainThread] CSV cargado: 20 filas, 17 IDs únicos — cuentas.csv
+2026-10-31 02:30:01 [WARNING] [ID: MainThread] ID duplicado en el archivo: aparece 3 veces.
+2026-10-31 02:30:01 [WARNING] [ID: MainThread] ID duplicado en el archivo: aparece 2 veces.
+2026-10-31 02:33:12 [INFO] [ID: MainThread] ===== INICIO DEL PROCESO DE CUENTAS =====
+2026-10-31 02:33:12 [INFO] [ID: MainThread] Base de datos inicializada: state/estado.db
+2026-10-31 02:33:12 [INFO] [ID: MainThread] CSV cargado: 20 filas, 17 IDs únicos — cuentas.csv
+2026-10-31 02:33:13 [WARNING] [ID: MainThread] ID duplicado en el archivo: aparece 3 veces.
+2026-10-31 02:33:13 [INFO] [ID: MainThread] ID omitido (ya resuelto con estado 'OK').
+2026-10-31 02:33:13 [WARNING] [ID: MainThread] ID duplicado en el archivo: aparece 2 veces.
+2026-10-31 02:33:13 [INFO] [ID: MainThread] ID omitido (ya resuelto con estado 'OK').
+2026-10-31 02:33:13 [INFO] [ID: MainThread] ID omitido (ya resuelto con estado 'OK').
+2026-10-31 02:33:13 [INFO] [ID: MainThread] ID omitido (ya resuelto con estado 'OK').
+2026-10-31 02:33:13 [INFO] [ID: MainThread] ID omitido (ya resuelto con estado 'OK').
+2026-10-31 02:33:13 [INFO] [ID: MainThread] ID omitido (ya resuelto con estado 'NO_EXISTE').
+2026-10-31 02:33:13 [INFO] [ID: MainThread] ID omitido (ya resuelto con estado 'INVALIDO').
+2026-10-31 02:33:13 [INFO] [ID: MainThread] ID omitido (ya resuelto con estado 'OK').
+2026-10-31 02:33:13 [INFO] [ID: MainThread] ID omitido (ya resuelto con estado 'OK').
+2026-10-31 02:33:13 [INFO] [ID: MainThread] ID omitido (ya resuelto con estado 'OK').
+2026-10-31 02:33:13 [INFO] [ID: MainThread] ID omitido (ya resuelto con estado 'NO_EXISTE').
+2026-10-31 02:33:13 [INFO] [ID: MainThread] ID omitido (ya resuelto con estado 'OK').
+2026-10-31 02:33:13 [INFO] [ID: MainThread] ID omitido (ya resuelto con estado 'OK').
+2026-10-31 02:33:13 [INFO] [ID: MainThread] ID omitido (ya resuelto con estado 'OK').
+2026-10-31 02:33:13 [INFO] [ID: MainThread] ID omitido (ya resuelto con estado 'OK').
+2026-10-31 02:33:13 [INFO] [ID: MainThread] ID omitido (ya resuelto con estado 'NO_EXISTE').
+2026-10-31 02:33:13 [INFO] [ID: MainThread] ID omitido (ya resuelto con estado 'OK').
+2026-10-31 02:33:14 [INFO] [ID: MainThread] Excel generado: output\resultado.xlsx (17 registros)
+2026-10-31 02:33:14 [INFO] [ID: MainThread] ============================================================
+2026-10-31 02:33:14 [INFO] [ID: MainThread]          RESUMEN DE EJECUCIÓN
+2026-10-31 02:33:14 [INFO] [ID: MainThread] ============================================================
+2026-10-31 02:33:14 [INFO] [ID: MainThread]   Filas leídas del CSV (sin cabecera) : 20
+2026-10-31 02:33:14 [INFO] [ID: MainThread]   IDs únicos registrados en BD        : 17
+2026-10-31 02:33:14 [INFO] [ID: MainThread] ============================================================
+2026-10-31 02:33:14 [INFO] [ID: MainThread]   ✔  Resueltas con éxito  (OK)        : 13
+2026-10-31 02:33:14 [INFO] [ID: MainThread] ============================================================
+2026-10-31 02:33:14 [INFO] [ID: MainThread]   Cuentas con fallos:
+2026-10-31 02:33:14 [INFO] [ID: MainThread]      • NO_EXISTE    (HTTP 404)         : 3
+2026-10-31 02:33:14 [INFO] [ID: MainThread]      • INVALIDO     (formato inválido) : 1
+2026-10-31 02:33:14 [INFO] [ID: MainThread]      • ERROR_TECNICO (timeout / 5xx)   : 0
+2026-10-31 02:33:14 [INFO] [ID: MainThread]      TOTAL fallidas                    : 4
+2026-10-31 02:33:14 [INFO] [ID: MainThread] ============================================================
+2026-10-31 02:33:14 [INFO] [ID: MainThread]   ↷  Omitidas esta corrida (ya resueltas): 17
+2026-10-31 02:33:14 [INFO] [ID: MainThread] ============================================================
+2026-10-31 02:33:14 [INFO] [ID: MainThread] ===== FIN DEL PROCESO DE CUENTAS =====
