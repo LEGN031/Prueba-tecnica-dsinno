@@ -1,4 +1,5 @@
 from lectura import cargar_y_normalizar_csv
+from state.estado import inicializar_bd 
 
 if __name__ == "__main__":
     cuentas = cargar_y_normalizar_csv("cuentas.csv")
