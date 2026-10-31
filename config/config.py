@@ -1,8 +1,18 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
-# Cargar variables del archivo .env
-load_dotenv()
+# Cargar variables del archivo .env (soporta config/.env y .env en la raíz)
+_directorio_actual = Path(__file__).resolve().parent
+_env_en_config = _directorio_actual / ".env"
+_env_en_raiz = _directorio_actual.parent / ".env"
+
+if _env_en_config.exists():
+    load_dotenv(dotenv_path=_env_en_config)
+elif _env_en_raiz.exists():
+    load_dotenv(dotenv_path=_env_en_raiz)
+else:
+    load_dotenv()
 
 API_URL_BASE = os.getenv("url_base", "https://jsonplaceholder.typicode.com/posts")
 API_TIMEOUT = int(os.getenv("timeout", 5))

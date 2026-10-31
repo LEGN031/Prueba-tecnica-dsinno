@@ -53,7 +53,6 @@ Diseñado bajo principios de **idempotencia**, **tolerancia a fallos**, **reinte
 3. Instalar librerías requeridas:
    ```bash
    pip install -r requirements.txt
-   pip install python-dotenv
    ```
 
 ---
@@ -161,7 +160,33 @@ espera = (backoff_factor * (2 ** (intento - 1))) + jitter
 
 ---
 
-## 7. Logging y Protección de Datos
+## 7. LA DECISIÓN QUE QUEREMOS VER: Tratamiento de Identificadores Duplicados
+
+> **El reto planteaba:** *El CSV tiene identificadores repetidos. No te vamos a decir qué hacer con ellos. Decídelo tú y escribe en el README qué decidiste y por qué. No hay respuesta correcta: lo que evaluamos es el criterio, no la elección.*
+
+### Nuestra Decisión
+Se decidió **deduplicar en la fase de lectura temprana** consolidando cada identificador a un único registro en la base de datos y en el Excel final, pero **preservando la trazabilidad de frecuencia mediante una columna explícita (`veces_en_archivo`)**.
+
+### Justificación y Criterio Técnico / de Negocio:
+
+1. **Eficiencia de Red y Costo Operativo (No saturar la API):**
+   - En el archivo entregado, identificadores como el `7` aparecen repetidos 3 veces y el `12` aparece 2 veces.
+   - Realizar 3 peticiones HTTP idénticas para la cuenta `7` a las 3:00 a.m. desperdicia recursos, alarga la ventana de procesamiento nocturno y arriesga bloqueos.
+
+2. **Claridad para el Equipo de Auditoría:**
+   - El equipo de auditoría médica revisa el Excel en la mañana para conciliar cuentas radicadas. Presentar filas duplicadas con el mismo identificador generaría confusión operativa: ¿se auditó dos veces?, ¿se debe pagar dos veces?
+   - Una única fila por cuenta médica ofrece una vista limpia, concisa y libre de ruido.
+
+3. **Trazabilidad de Negocio sin Pérdida de Información:**
+   - Descartar los duplicados "en silencio" sería un error grave de auditoría: si la clínica radicó la misma cuenta 3 veces, ese indicio puede señalar un error de facturación doble o un reintento manual erróneo por parte de la clínica.
+   - Al capturar y persistir el campo `veces_en_archivo`, el equipo de auditoría puede ordenar o filtrar el Excel por esa columna y detectar anomalías en la radicación de origen sin sacrificar la idempotencia del sistema.
+
+4. **Idempotencia y Clave Primaria:**
+   - En la base de datos de estado, el campo `id` es `PRIMARY KEY`. El mecanismo de `UPSERT` actualiza la metadata sin corromper el histórico ni generar duplicados al re-ejecutar el proceso.
+
+---
+
+## 8. Logging y Protección de Datos
 
 Configurado en [`logger.py`](file:///c:/Users/emanu/Downloads/Reto%20dsinno/logger.py):
 - **Doble Handler:**
@@ -175,7 +200,7 @@ Configurado en [`logger.py`](file:///c:/Users/emanu/Downloads/Reto%20dsinno/logg
 
 ---
 
-## 8. Resumen de Ejecución
+## 9. Resumen de Ejecución
 
 Al culminar la corrida, la función `imprimir_resumen()` consulta de forma independiente la base de datos SQLite para emitir el consolidado oficial:
 
@@ -186,21 +211,23 @@ Al culminar la corrida, la función `imprimir_resumen()` consulta de forma indep
   Filas leídas del CSV (sin cabecera) : 20
   IDs únicos registrados en BD        : 17
 ============================================================
-  ✔  Resueltas con éxito  (OK)        : 14
+  ✔  Resueltas con éxito  (OK)        : 13
 ============================================================
   Cuentas con fallos:
-     • NO_EXISTE    (HTTP 404)         : 2
+     • NO_EXISTE    (HTTP 404)         : 3
      • INVALIDO     (formato inválido) : 1
      • ERROR_TECNICO (timeout / 5xx)   : 0
-     TOTAL fallidas                    : 3
+     TOTAL fallidas                    : 4
 ============================================================
   ↷  Omitidas esta corrida (ya resueltas): 17
 ============================================================
 ```
 
+> **Nota sobre los fallos:** Los identificadores `0`, `101` y `150` corresponden a `NO_EXISTE` porque JSONPlaceholder solo contiene registros del 1 al 100; mientras que `abc` es catalogado como `INVALIDO` previo a consultar la red.
+
 ---
 
-## 9. Runbook Operativo (Guardia 3:00 AM)
+## 10. Runbook Operativo (Guardia 3:00 AM)
 
 > **Contexto:** Te llaman de guardia a las 3:00 a.m. porque el proceso automatizado falló o el reporte no llegó a tiempo. Sigue este procedimiento estándar de operación:
 

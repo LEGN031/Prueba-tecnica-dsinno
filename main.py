@@ -3,6 +3,9 @@ from state.estado import inicializar_bd, obtener_cuenta, guardar_resultado
 from api import consultar_api
 from config.config import (
     API_URL_BASE,
+    API_TIMEOUT,
+    API_MAX_RETRIES,
+    API_BACKOFF_FACTOR,
     PATH_INPUT_CSV,
     PATH_OUTPUT_EXCEL,
     PATH_DB_STATE,
@@ -18,9 +21,13 @@ logger = configurar_logger()
 def exportar_excel(
     db_path=PATH_DB_STATE,
     tabla="cuentas",
-    carpeta_salida=PATH_OUTPUT_EXCEL.split("/")[0]
+    carpeta_salida=None
 ):
-    output_dir = Path(carpeta_salida)
+    if carpeta_salida is None:
+        output_dir = Path(PATH_OUTPUT_EXCEL).parent
+    else:
+        output_dir = Path(carpeta_salida)
+
     output_dir.mkdir(parents=True, exist_ok=True)
 
     with closing(sqlite3.connect(db_path)) as conexion:
@@ -89,7 +96,13 @@ def procesar_cuentas():
             guardar_resultado(id_cuenta, resultado, info["veces_en_archivo"])
             continue
 
-        resultado = consultar_api(id_cuenta, API_URL_BASE)
+        resultado = consultar_api(
+            id_cuenta,
+            API_URL_BASE,
+            reintentos_maximos=API_MAX_RETRIES,
+            backoff_factor=API_BACKOFF_FACTOR,
+            timeout=API_TIMEOUT,
+        )
 
         if resultado["estado"] == "OK":
             logger.info("ID procesado con éxito (OK) en %d intento(s).", resultado["intentos"])

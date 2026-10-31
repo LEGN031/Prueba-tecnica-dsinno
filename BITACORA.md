@@ -16,7 +16,7 @@ Este documento (tambien desarrollado con apoyo de la IA) detalla de manera trans
 
 ## 2. Prompts Clave Utilizados (Copiados tal cual)
 
-Los siguientes prompts generaron valor real y aceleraron el desarrollo al estar bien acotados:
+> **Nota de transparencia y rigor:** Durante el desarrollo del reto se utilizó **un único prompt pulido de IA** (enfocado en la estructura inicial del módulo de logging y reportería de consola/archivo). El resto de componentes esenciales (normalización del CSV, persistencia SQLite transaccional, política de reintentos con backoff y jitter, y exportación a Excel) fueron programados y diseñados de forma manual con algunos conceptos obtenidos de preguntas a IA. Se incluye únicamente el prompt genuinamente utilizado sin fabricar prompts adicionales de forma artificial.
 
 ### Prompt 1: Configuración de Logging y Métricas
 ```text
