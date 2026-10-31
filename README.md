@@ -151,10 +151,12 @@ El pipeline establece una separación estricta entre dos categorías de error:
 ### Estrategia de Espera: Backoff Exponencial con Jitter
 Para evitar el problema de la "manada atronadora" (*thundering herd problem*), donde múltiples hilos o peticiones golpean el servidor al mismo instante exacto, la espera se calcula mediante:
 
-$$\text{espera} = \left(\text{backoff\_factor} \times 2^{(\text{intento} - 1)}\right) + \text{jitter}$$
+```python
+espera = (backoff_factor * (2 ** (intento - 1))) + jitter
+```
 
-- **Intento 1 fallido:** Espera $\approx 1.0\text{ s} + \text{jitter (0.1 - 0.5 s)}$
-- **Intento 2 fallido:** Espera $\approx 2.0\text{ s} + \text{jitter (0.1 - 0.5 s)}$
+- **Intento 1 fallido:** Espera ≈ 1.0 s + jitter (0.1 a 0.5 s)
+- **Intento 2 fallido:** Espera ≈ 2.0 s + jitter (0.1 a 0.5 s)
 - **Intento 3 fallido:** Si agota los 3 reintentos configurados, se abandona definitivamente y se califica como `ERROR_TECNICO`, registrando en la base de datos y en los logs la causa exacta del último error.
 
 ---
